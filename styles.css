@@ -49,7 +49,12 @@ body {
     width: 640px;
     height: 480px;
   }
+
+  #webcam {
+    transform: scaleX(-1);
+  }
   
+
   
   /* Adjustments for small screens */
   @media (max-width: 600px) {
