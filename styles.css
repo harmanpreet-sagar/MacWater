@@ -40,6 +40,16 @@ body {
   button:hover {
     background-color: #2a4e9e; /* Darker blue color on hover */
   }
+
+  video {
+    clear: both;
+    display: block;
+    margin: 10px;
+    background: #000000;
+    width: 640px;
+    height: 480px;
+  }
+  
   
   /* Adjustments for small screens */
   @media (max-width: 600px) {
