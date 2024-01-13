@@ -1,5 +1,5 @@
 # MacWater
 
 ## Problem Description
-- A website that tracks the location of water fountains and their filter status on campus.
-- Users can upload the filter status and send the location of the specif fountain so that users can drink clean and filtered water
+- A website that tracks water fountains' location and filter status on the McMaster University campus.
+- Users can upload the filter status and send the location of the specific fountain so that users can drink clean and filtered water
