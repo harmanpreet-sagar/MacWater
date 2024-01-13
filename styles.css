@@ -1,0 +1,54 @@
+/* styles.css */
+
+body {
+    background-color: #f4f4f4; /* Light gray background color */
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Viewport height, making the body take up the full screen */
+  }
+  
+  h1 {
+    color: #333; /* Dark gray text color */
+    text-align: center;
+  }
+  
+  #status {
+    color: #555; /* Medium gray text color */
+  }
+  
+  #webcam {
+    width: 100%; /* Make the video element take up the full width */
+    max-width: 600px; /* Set a maximum width to prevent it from becoming too large */
+    margin: 20px 0; /* Add some margin for spacing */
+  }
+  
+  button {
+    background-color: #4285f4; /* Google blue color for buttons */
+    color: #fff; /* White text color */
+    padding: 10px 20px; /* Padding for better button appearance */
+    margin: 10px; /* Add some margin between buttons */
+    cursor: pointer; /* Change cursor to pointer on hover for better UX */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Add border-radius for rounded corners */
+  }
+  
+  button:hover {
+    background-color: #2a4e9e; /* Darker blue color on hover */
+  }
+  
+  /* Adjustments for small screens */
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 1.5em; /* Adjust heading font size for smaller screens */
+    }
+  
+    button {
+      width: 100%; /* Make buttons take up the full width on smaller screens */
+    }
+  }
+  
