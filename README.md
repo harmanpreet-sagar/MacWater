@@ -14,6 +14,9 @@ Enable McMaster students to easily access real-time updates on the status of wat
 - Node.js
 - TensorFlow
 
+## Figma Prototype
+https://www.figma.com/proto/h620v18JOyDhul43kruTRh/MacWater?type=design&node-id=54-198&t=BKHEiALSCP5KETwF-1&scaling=contain&page-id=0%3A1&mode=design
+
 ## Challenges we ran into
 - Creating the image classifier system
 - Loading the image classifier system
