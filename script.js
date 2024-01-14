@@ -171,7 +171,9 @@ async function loadMobileNetFeatureModel() {
         let confidence = Math.floor(predictionArray[highestIndex] * 100); 
         if (confidence > 98)
         {
-          STATUS.innerText = 'Prediction: ' + CLASS_NAMES[highestIndex] + ' with ' + Math.floor(predictionArray[highestIndex] * 100) + '% confidence';
+          // get location from input
+          let refillLocation = document.getElementById('dropdown').value;
+          STATUS.innerText = refillLocation + '\'s water refill station status has been set to ' + CLASS_NAMES[highestIndex] + '.';
           console.log("PREDICTION BASED: ", classification);
           predict = false; 
           return CLASS_NAMES[highestIndex];
@@ -227,6 +229,8 @@ async function load() {
     // Start using the loaded model
     predict = true;
     await predictLoop(newModel); // Wait for predictLoop to complete
+
+
   } catch (error) {
     console.error("Error loading the model:", error);
   }

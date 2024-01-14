@@ -112,3 +112,31 @@ button:hover {
       transform: translateY(0) translateX(0);
   }
 }
+
+
+select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  outline: none; /* Remove the default focus border */
+}
+
+/* Style the dropdown arrow */
+select::-ms-expand {
+  display: none;
+}
+
+/* Customize the appearance of the dropdown arrow in different browsers */
+select::-webkit-select-arrow,
+select::-moz-select-arrow,
+select::-ms-expand {
+  display: none;
+}
+
+/* Style the dropdown options */
+select option {
+  background-color: #fff;
+  color: #333;
+}
