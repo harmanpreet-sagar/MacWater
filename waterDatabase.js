@@ -63,7 +63,7 @@ insert_data('Mills Library', '1st floor', 'Green');
 
 insert_data('Thode Library', '2nd floor', 'Red');
 insert_data('Thode Library', '1st floor', 'Yellow');
-insert_data('John Hodgins Engineering', 'Near H237', 'Green');
+insert_data('John Hodgins Engineering', '1st floor', 'Green');
 
 // update_data('Mills Library', '3rd floor', 'Green');
 // delete_specific_row('Thode Library');
