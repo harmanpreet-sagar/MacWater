@@ -1,37 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Transfer Learning - TensorFlow.js</title>
+<head>
+    <title>Water Classification System</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="/styles.css">
-  </head>  
-  <body>
+</head>
+<body>
     <h1>Water Classification System</h1>
-    
+
     <p id="status">Awaiting TF.js load</p>
-    
+
     <video id="webcam" autoplay muted></video>
-    
-    <button id="enableCam">Enable Webcam</button>
-    <button class="dataCollector" data-1hot="0" data-name="clean">Clean</button>
-    <button class="dataCollector" data-1hot="1" data-name="moderate 2">Moderate</button>
-    <button class="dataCollector" data-1hot="2" data-name="poor">Poor</button>
 
+    <!-- Top row buttons -->
+    <div class="top-buttons">
+        <button id="load">Load Model</button>
+        <button id="enableCam">Enable Webcam</button>
+    </div>
 
-    <button id="train">Train &amp; Predict!</button>
-    <button id="reset">Reset</button>
-    <button id="save">Save</button>
-    <button id="load">Load Model</button>
+    <!-- Water bubbles container -->
+    <div class="water-bubbles-container"></div>
 
-
-
-    <!-- Import TensorFlow.js library -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js" type="text/javascript"></script>
-
-    <!-- Import the page's JavaScript to do some stuff -->
     <script type="module" src="/script.js"></script>
-  </body>
+</body>
 </html>

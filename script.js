@@ -1,30 +1,21 @@
 const STATUS = document.getElementById('status');
 const VIDEO = document.getElementById('webcam');
 const ENABLE_CAM_BUTTON = document.getElementById('enableCam');
-const RESET_BUTTON = document.getElementById('reset');
 const LOAD_BUTTON = document.getElementById('load');
-const SAVE_BUTTON = document.getElementById('save');
-const TRAIN_BUTTON = document.getElementById('train');
+const BUBBLES_CONTAINER = document.querySelector('.water-bubbles-container');
+
+
 const MOBILE_NET_INPUT_WIDTH = 224;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const STOP_DATA_GATHER = -1;
-const CLASS_NAMES = [];
+const CLASS_NAMES = ['clean', 'moderate', 'poor'];
 
 
 
 ENABLE_CAM_BUTTON.addEventListener('click', enableCam);
-TRAIN_BUTTON.addEventListener('click', trainAndPredict);
-RESET_BUTTON.addEventListener('click', reset);
-SAVE_BUTTON.addEventListener('click', save);
 LOAD_BUTTON.addEventListener('click', load);
 
-let dataCollectorButtons = document.querySelectorAll('button.dataCollector');
-for (let i = 0; i < dataCollectorButtons.length; i++) {
-  dataCollectorButtons[i].addEventListener('mousedown', gatherDataForClass);
-  dataCollectorButtons[i].addEventListener('mouseup', gatherDataForClass);
-  // Populate the human readable names for classes.
-  CLASS_NAMES.push(dataCollectorButtons[i].getAttribute('data-name'));
-}
+
 
 let mobilenet = undefined;
 let gatherDataState = STOP_DATA_GATHER;
@@ -33,6 +24,20 @@ let trainingDataInputs = [];
 let trainingDataOutputs = [];
 let examplesCount = [];
 let predict = false;
+
+
+// Your existing JavaScript code
+
+// Create water bubbles dynamically
+for (let i = 0; i < 10; i++) {
+    const bubble = document.createElement('div');
+    bubble.classList.add('water-bubble');
+    bubble.style.width = `${Math.random() * 20 + 10}px`; // Random size between 10px and 30px
+    bubble.style.height = bubble.style.width;
+    bubble.style.left = `${Math.random() * 100}%`; // Random horizontal position
+    bubble.style.animationDuration = `${Math.random() * 2 + 1}s`; // Random animation duration
+    BUBBLES_CONTAINER.appendChild(bubble);
+}
 
 
 function hasGetUserMedia() {
@@ -162,45 +167,53 @@ async function loadMobileNetFeatureModel() {
         let predictionArray = prediction.arraySync();
   
         let classification = CLASS_NAMES[highestIndex]; 
-        console.log(classification);
+
         let confidence = Math.floor(predictionArray[highestIndex] * 100); 
         if (confidence > 98)
+        {
           STATUS.innerText = 'Prediction: ' + CLASS_NAMES[highestIndex] + ' with ' + Math.floor(predictionArray[highestIndex] * 100) + '% confidence';
-        else
+          console.log("PREDICTION BASED: ", classification);
+          predict = false; 
+          return CLASS_NAMES[highestIndex];
+        }
+
+        else{
           STATUS.innerText = 'Prediction: Not confident enough to make a prediction'
+          console.log("Not confident to make a prediction");
+        }
       });
     }
   }
 
-  function logProgress(epoch, logs) {
-    console.log('Data for epoch ' + epoch, logs);
-  }
+  // function logProgress(epoch, logs) {
+  //   console.log('Data for epoch ' + epoch, logs);
+  // }
   
   // Call the function immediately to start loading.
   loadMobileNetFeatureModel();
 
-  let model = tf.sequential();
-model.add(tf.layers.dense({inputShape: [1024], units: 128, activation: 'relu'}));
-model.add(tf.layers.dense({units: CLASS_NAMES.length, activation: 'softmax'}));
+//   let model = tf.sequential();
+// model.add(tf.layers.dense({inputShape: [1024], units: 128, activation: 'relu'}));
+// model.add(tf.layers.dense({units: CLASS_NAMES.length, activation: 'softmax'}));
 
 
-// Compile the model with the defined optimizer and specify a loss function to use.
-model.compile({
-  // Adam changes the learning rate over time which is useful.
-  optimizer: 'adam',
-  // Use the correct loss function. If 2 classes of data, must use binaryCrossentropy.
-  // Else categoricalCrossentropy is used if more than 2 classes.
-  loss: (CLASS_NAMES.length === 2) ? 'binaryCrossentropy': 'categoricalCrossentropy', 
-  // As this is a classification problem you can record accuracy in the logs too!
-  metrics: ['accuracy']  
-});
+// // Compile the model with the defined optimizer and specify a loss function to use.
+// model.compile({
+//   // Adam changes the learning rate over time which is useful.
+//   optimizer: 'adam',
+//   // Use the correct loss function. If 2 classes of data, must use binaryCrossentropy.
+//   // Else categoricalCrossentropy is used if more than 2 classes.
+//   loss: (CLASS_NAMES.length === 2) ? 'binaryCrossentropy': 'categoricalCrossentropy', 
+//   // As this is a classification problem you can record accuracy in the logs too!
+//   metrics: ['accuracy']  
+// });
 
 
-model.summary()
+// model.summary()
 
-function save(){
-    model.save('downloads://my-model');
-}
+// function save(){
+//     model.save('downloads://my-model');
+// }
 
 
 
@@ -218,8 +231,6 @@ async function load() {
     console.error("Error loading the model:", error);
   }
 }
-
-
 
 
 
