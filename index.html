@@ -9,21 +9,23 @@
     <link rel="stylesheet" href="/styles.css">
   </head>  
   <body>
-    <h1>Make your own "Teachable Machine" using Transfer Learning with MobileNet v3 in TensorFlow.js using saved graph model from TFHub.</h1>
+    <h1>Water Classification System</h1>
     
     <p id="status">Awaiting TF.js load</p>
     
     <video id="webcam" autoplay muted></video>
     
     <button id="enableCam">Enable Webcam</button>
-    <button class="dataCollector" data-1hot="0" data-name="Class 1">Gather Class 1 Data</button>
-    <button class="dataCollector" data-1hot="1" data-name="Class 2">Gather Class 2 Data</button>
-    <button class="dataCollector" data-1hot="2" data-name="Class 3">Gather Class 3 Data</button>
+    <button class="dataCollector" data-1hot="0" data-name="clean">Clean</button>
+    <button class="dataCollector" data-1hot="1" data-name="moderate 2">Moderate</button>
+    <button class="dataCollector" data-1hot="2" data-name="poor">Poor</button>
 
 
     <button id="train">Train &amp; Predict!</button>
     <button id="reset">Reset</button>
     <button id="save">Save</button>
+    <button id="load">Load Model</button>
+
 
 
     <!-- Import TensorFlow.js library -->

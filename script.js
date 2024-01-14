@@ -2,6 +2,7 @@ const STATUS = document.getElementById('status');
 const VIDEO = document.getElementById('webcam');
 const ENABLE_CAM_BUTTON = document.getElementById('enableCam');
 const RESET_BUTTON = document.getElementById('reset');
+const LOAD_BUTTON = document.getElementById('load');
 const SAVE_BUTTON = document.getElementById('save');
 const TRAIN_BUTTON = document.getElementById('train');
 const MOBILE_NET_INPUT_WIDTH = 224;
@@ -14,7 +15,8 @@ const CLASS_NAMES = [];
 ENABLE_CAM_BUTTON.addEventListener('click', enableCam);
 TRAIN_BUTTON.addEventListener('click', trainAndPredict);
 RESET_BUTTON.addEventListener('click', reset);
-SAVE_BUTTON.addEventListener('click', save)
+SAVE_BUTTON.addEventListener('click', save);
+LOAD_BUTTON.addEventListener('click', load);
 
 let dataCollectorButtons = document.querySelectorAll('button.dataCollector');
 for (let i = 0; i < dataCollectorButtons.length; i++) {
@@ -143,29 +145,32 @@ async function loadMobileNetFeatureModel() {
     oneHotOutputs.dispose();
     inputsAsTensor.dispose();
     predict = true;
-    predictLoop();
+    predictLoop(model);
   }
 
 
-  function predictLoop() {
-    if (predict) {
+  async function predictLoop(model) {
+    while (predict) {
+      await tf.nextFrame(); // Wait for the next animation frame
       tf.tidy(function() {
         let videoFrameAsTensor = tf.browser.fromPixels(VIDEO).div(255);
-        let resizedTensorFrame = tf.image.resizeBilinear(videoFrameAsTensor,[MOBILE_NET_INPUT_HEIGHT, 
-            MOBILE_NET_INPUT_WIDTH], true);
-  
+        let resizedTensorFrame = tf.image.resizeBilinear(videoFrameAsTensor, [MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH], true);
+    
         let imageFeatures = mobilenet.predict(resizedTensorFrame.expandDims());
         let prediction = model.predict(imageFeatures).squeeze();
         let highestIndex = prediction.argMax().arraySync();
         let predictionArray = prediction.arraySync();
   
-        STATUS.innerText = 'Prediction: ' + CLASS_NAMES[highestIndex] + ' with ' + Math.floor(predictionArray[highestIndex] * 100) + '% confidence';
+        let classification = CLASS_NAMES[highestIndex]; 
+        console.log(classification);
+        let confidence = Math.floor(predictionArray[highestIndex] * 100); 
+        if (confidence > 98)
+          STATUS.innerText = 'Prediction: ' + CLASS_NAMES[highestIndex] + ' with ' + Math.floor(predictionArray[highestIndex] * 100) + '% confidence';
+        else
+          STATUS.innerText = 'Prediction: Not confident enough to make a prediction'
       });
-  
-      window.requestAnimationFrame(predictLoop);
     }
   }
-  
 
   function logProgress(epoch, logs) {
     console.log('Data for epoch ' + epoch, logs);
@@ -178,7 +183,6 @@ async function loadMobileNetFeatureModel() {
 model.add(tf.layers.dense({inputShape: [1024], units: 128, activation: 'relu'}));
 model.add(tf.layers.dense({units: CLASS_NAMES.length, activation: 'softmax'}));
 
-model.summary();
 
 // Compile the model with the defined optimizer and specify a loss function to use.
 model.compile({
@@ -195,9 +199,26 @@ model.compile({
 model.summary()
 
 function save(){
-    console.log("pleasplsplspsls"); 
     model.save('downloads://my-model');
 }
+
+
+
+//! NEW CODE STUFF
+async function load() {
+  try {
+    console.log("Preloading model...");
+    const newModel = await tf.loadLayersModel('http://127.0.0.1:5500/my-model.json');
+    console.log("Model loaded successfully");
+
+    // Start using the loaded model
+    predict = true;
+    await predictLoop(newModel); // Wait for predictLoop to complete
+  } catch (error) {
+    console.error("Error loading the model:", error);
+  }
+}
+
 
 
 

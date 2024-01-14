@@ -36,7 +36,8 @@ body {
     border: none; /* Remove button border */
     border-radius: 5px; /* Add border-radius for rounded corners */
   }
-  
+
+
   button:hover {
     background-color: #2a4e9e; /* Darker blue color on hover */
   }
