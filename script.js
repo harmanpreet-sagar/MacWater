@@ -2,6 +2,7 @@ const STATUS = document.getElementById('status');
 const VIDEO = document.getElementById('webcam');
 const ENABLE_CAM_BUTTON = document.getElementById('enableCam');
 const RESET_BUTTON = document.getElementById('reset');
+const SAVE_BUTTON = document.getElementById('save');
 const TRAIN_BUTTON = document.getElementById('train');
 const MOBILE_NET_INPUT_WIDTH = 224;
 const MOBILE_NET_INPUT_HEIGHT = 224;
@@ -13,6 +14,7 @@ const CLASS_NAMES = [];
 ENABLE_CAM_BUTTON.addEventListener('click', enableCam);
 TRAIN_BUTTON.addEventListener('click', trainAndPredict);
 RESET_BUTTON.addEventListener('click', reset);
+SAVE_BUTTON.addEventListener('click', save)
 
 let dataCollectorButtons = document.querySelectorAll('button.dataCollector');
 for (let i = 0; i < dataCollectorButtons.length; i++) {
@@ -42,8 +44,8 @@ function enableCam() {
         const constraints = {
           video: true,
           
-          width: 640*2, 
-          height: 480 *2
+          width: 640, 
+          height: 480 
         };
     
         // Activate the webcam stream.
@@ -191,6 +193,12 @@ model.compile({
 
 
 model.summary()
+
+function save(){
+    console.log("pleasplsplspsls"); 
+    model.save('downloads://my-model');
+}
+
 
 
 
